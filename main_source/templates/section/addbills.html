@@ -1,0 +1,120 @@
+<section id="addbills">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 heading">
+                <h2> Add Bills Section </h2>
+                <div class="row">
+                    <div class="col-md-6 left_bill">
+                        <p>Here you will see the bills for yours mess with 
+                            amounts. 
+                            You can also see the added date of bills.<br> 
+                            <strong>Bills can only added by manager.</strong>  <br><br>
+                            <strong>{{mess.name}},</strong><br>
+                            <strong>Total Bill : {{total_bill}}</strong> <br>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="id_bill_on">Bill Name</label>
+                    <input type="text" name="bill_on" maxlength="250" id="id_bill_on">
+                    <label for="id_amount">Amount</label>
+                    <input type="number" name="amount" id="id_amount">
+                    <input type="submit" id="submit" value="Add Bill">
+                </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card card-body">
+                    <table class="table table-dark">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Bills On</th>
+                                <th scope="col">Bill Amount</th>
+                                <th scope="col">Bill Added On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in bill %}
+                            <tr>
+                                <td>{{i.bill_on}}</td>
+                                <td>{{i.amount}}</td>
+                                <td>{{i.date_created }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+#addbills{
+    width: 100%;
+    background: var(--white);
+    margin: 20px;
+}
+#addbills .col-md-8{
+    padding: 0 40px;
+}
+#addbills .table tbody{
+    max-height: 600px !important;
+    overflow: scroll !important;
+}
+.heading{
+    color: var(--black);
+    background-color: var(--white);
+    border-color: var(--white);
+    border-radius: 15px;
+}
+.heading h2{
+    color: var(--white);
+    background-color: var(--black);
+    border-color: var(--black);
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.left_bill{
+    border-right: 1px solid var(--black)
+}
+.table .thead-dark th {
+    color: var(--white);
+    background-color: var(--black);
+    border-color: var(--black);
+    text-transform: uppercase;
+}
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], textarea {
+  background-color: transparent;
+  background-image: linear-gradient(to right,#ff005e 0,#ff7101 70%);
+  background-repeat: no-repeat;
+  background-position: 0 calc(100% + 3px),0 0;
+  background-size: 100% 3px;
+  box-shadow: none;
+  border: 0;
+  border-bottom: 3px solid #ff005e;
+  color: #000;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  font-size: 20px;
+  line-height: 1.5;
+  outline: 0 none;
+  padding: .25rem 0;
+  transition: border-color .2s linear;
+  width: 100%;
+  
+}
+#submit {
+    color: var(--white);
+    margin-top: 40px;
+    transition: color 300ms;
+    background-image: linear-gradient(to right,#ff005e 0,#ff7101 70%);
+    border-radius: 45px;
+    width: 50%;
+}
+</style>

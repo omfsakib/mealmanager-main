@@ -1,0 +1,458 @@
+{% load static %}
+<section class="pt-5 pb-5" id="meals">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-1">
+          </div>
+          <div class="col-5">
+            <h3 class="mb-3">Meals Section </h3>
+        </div>
+          <div class="col-6 text-right">
+              
+          <a class="btn btn-outline-secondary mx-1 prev" onclick="prev()" href="javascript:void(0)" title="Previous">
+            <i class="fa fa-lg fa-chevron-left"></i>
+          </a>
+          <a class="btn btn-outline-secondary mx-1 next" onclick="next()" href="javascript:void(0)" title="Next">
+            <i class="fa fa-lg fa-chevron-right"></i>
+          </a>
+          </div>
+          <div class="col-4 left_meal">
+            <div class="meal_content">
+                <p> Here you can see the last added mills and total meal of yours.
+                    Also you can see the total spends by meals.
+                    <br><br><strong>{{mess.name}},</strong> <br>
+                    Total Meal : <strong>{{total_meals}}</strong> <br>
+                    Meal Rate  : <strong>{{meal_rate|floatformat:2}}</strong> <br>
+                </p>
+            </div>
+              <div class="loader">
+                  <div class="rocket">
+                    <i class="fa fa-rocket"></i>
+                    <i class="fa fa-cloud" style="--i:0;"></i>
+                    <i class="fa fa-cloud" style="--i:1;"></i>
+                    <i class="fa fa-cloud" style="--i:2;"></i>
+                    <i class="fa fa-cloud" style="--i:3;"></i>
+                  </div>
+                  <span><i></i></span>
+              </div>
+          </div>
+          <div class="col-8">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner row w-100 mx-auto" id="active">
+                {% for member in mess.members.all %}
+                <div class="carousel-item col-md-4" >
+                  <div class="card">
+                        <div class="icon"><img src="{{ member.member.profile_pic.url }}" alt=""></div>
+                        <div class="content">
+                            <h2>{{member.username}}</h2>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name = "user_id" value="{{member.id}}">
+                                <input type="number" placeholder="Add today's meal.." name="todays_meal" id="id_todays_meal">
+                                <button type="submit" class="btn btn-success">Add Meals</button>
+                            </form>
+                            <p>Last Added Meals: {{ member.meals.todays_meal }}</p>
+                            <p>Total Meals: {{ member.meals.total_meal }}</p>
+                            <p>Spends : {{ member.amountspend.person_spend|floatformat:2 }}</p>
+                        </div>
+                  </div>
+                </div>
+                {% endfor %}
+                </div>
+                </div>
+          </div>
+      </div>
+  </div>
+  </section>
+
+<style>
+    .ml-auto, .mx-auto {
+    margin-left: auto!important;
+    height: 550px;
+}
+    @media screen and (min-width: 768px) {
+  .carousel-inner .active,
+  .carousel-inner .active+.carousel-item {
+    display: block;
+  }
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)+.carousel-item {
+    -webkit-transition: none;
+    transition: none;
+  }
+  .carousel-inner .carousel-item-next,
+  .carousel-inner .carousel-item-prev {
+    position: relative;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  .carousel-inner .active.carousel-item+.carousel-item+.carousel-item+.carousel-item {
+    position: absolute;
+    top: 0;
+    right: -50%;
+    z-index: -1;
+    display: block;
+    visibility: visible;
+  }
+  /* left or forward direction */
+  .active.carousel-item-left+.carousel-item-next.carousel-item-left,
+  .carousel-item-next.carousel-item-left+.carousel-item {
+    position: relative;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+  /* farthest right hidden item must be abso position for animations */
+  .carousel-inner .carousel-item-prev.carousel-item-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    visibility: visible;
+  }
+  /* right or prev direction */
+  .active.carousel-item-right+.carousel-item-prev.carousel-item-right,
+  .carousel-item-prev.carousel-item-right+.carousel-item {
+    position: relative;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+    display: block;
+    visibility: visible;
+  }
+}
+
+/* Desktop and up */
+
+@media screen and (min-width: 992px) {
+  .carousel-inner .active,
+  .carousel-inner .active+.carousel-item,
+  .carousel-inner .active+.carousel-item+.carousel-item {
+    display: block;
+  }
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)+.carousel-item,
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)+.carousel-item+.carousel-item {
+    -webkit-transition: none;
+    transition: none;
+  }
+  .carousel-inner .carousel-item-next,
+  .carousel-inner .carousel-item-prev {
+    position: relative;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  .carousel-inner .active.carousel-item+.carousel-item+.carousel-item+.carousel-item {
+    position: absolute;
+    top: 0;
+    right: -33.3333%;
+    z-index: -1;
+    display: block;
+    visibility: visible;
+  }
+  /* left or forward direction */
+  .active.carousel-item-left+.carousel-item-next.carousel-item-left,
+  .carousel-item-next.carousel-item-left+.carousel-item,
+  .carousel-item-next.carousel-item-left+.carousel-item+.carousel-item,
+  .carousel-item-next.carousel-item-left+.carousel-item+.carousel-item+.carousel-item {
+    position: relative;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+  /* farthest right hidden item must be abso position for animations */
+  .carousel-inner .carousel-item-prev.carousel-item-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    visibility: visible;
+  }
+  /* right or prev direction */
+  .active.carousel-item-right+.carousel-item-prev.carousel-item-right,
+  .carousel-item-prev.carousel-item-right+.carousel-item,
+  .carousel-item-prev.carousel-item-right+.carousel-item+.carousel-item,
+  .carousel-item-prev.carousel-item-right+.carousel-item+.carousel-item+.carousel-item {
+    position: relative;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+    display: block;
+    visibility: visible;
+  }
+}
+/*-- Meals Section --*/
+#meals{
+    width: 100%;
+    background: var(--white);
+}
+#meals .left_meal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#meals .loader{
+    position: relative;
+    display: flex;
+}
+#meals .left_meal .meal_content{
+    padding: 0 40px;
+    display: block;
+}
+#meals .loader span{
+    position: relative;
+    width: 250px;
+    height: 250px;
+    background: var(--white);
+    border: 6px solid var(--white);
+    border-radius: 50%;
+    box-shadow: -8px -8px 15px rgba(255,255,255,1),
+    8px 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+}
+#meals .loader span::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: inset 10px 10px 20px rgba(0,0,0,0.5),
+    inset -5px -5px 15px rgba(255,255,255,1);
+}
+#meals .loader span::after{
+    content: '';
+    position: absolute;
+    inset: 40px;
+    background: var(--white);
+    border: 3px solid var(--white);
+    border-radius: 50%;
+    box-shadow: -8px -8px 25px rgba(255,255,255,1),
+    8px 8px 25px rgba(0,0,0,0.25),
+    inset 3px 3px 10px rgba(0,0,0,0.15),
+    inset -1px -1px 15px rgba(255,255,255,1);
+}
+#meals .loader span i{
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    filter: blur(5px);
+    background: linear-gradient(#42abff,#ff4f8b,#ffeb3b);
+    animation: animate 1s linear infinite;
+}
+@keyframes animate{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+.rocket{
+    position: absolute;
+    inset: 50px;
+    display: flex;
+    z-index: 10;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.rocket .fa-rocket{
+    position: absolute;
+    color: #ff518c;
+    font-size: 3.5em;
+    -webkit-text-stroke: 2px #000;
+    animation:  animateRocket 0.2s linear infinite;
+}
+@keyframes animateRocket{
+    0%,100%{
+        transform: translate(0px,0px) rotate(-45deg);
+    }
+    50%{
+        transform: translate(0px,3px) rotate(-45deg);
+    }
+}
+.fa-cloud{
+    position: absolute;
+    top: calc(35px * var(--i));
+    left: calc(45px * var(--i));
+    font-size: 2em;
+    color: #fff;
+    -webkit-text-stroke: 2px #000;
+    animation:  animateClouds 1s linear infinite;
+    animation-delay: calc(-0.5s * var(--i));
+}
+@keyframes animateClouds{
+    0%{
+        transform: translateY(calc(-35 * 5px));
+    }
+    100%{
+        transform: translateY(calc(35 * 5px));
+    }
+}
+#meals .mb-3{
+    color: var(--black);
+}
+#meals .card{
+    position: relative;
+    width: 320px;
+    height: 450px;
+    margin: 30px;
+    background: transparent;
+    border-radius: 20px;
+    border-bottom-left-radius: 160px;
+    border-bottom-right-radius: 160px;
+    box-shadow: 0 15px 0 #fff,
+    inset 0 -15px 0 rgba(255, 255, 255,0.25),
+    0 45px 0 rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+    float: left;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+}
+#meals .card::before{
+    content: '';
+    position: absolute;
+    top: -140px;
+    left: -40%;
+    width: 100%;
+    height: 120%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2));
+    transform: rotate(35deg);
+    pointer-events: none;
+    filter: blur(5px);
+}
+#meals .card:nth-child(1){
+    background: linear-gradient(to bottom,#ff2ae0,#645bf6);
+    border: none;
+}
+#meals .card:nth-child(2){
+    background: linear-gradient(to bottom,#ffec61,#f321d7);
+    border: none;
+}
+#meals .card:nth-child(3){
+    background: linear-gradient(to bottom,#24ff72,#9a4eff);
+    border: none;
+}
+#meals .card .btn{
+    margin: 10px;
+}
+#meals .icon{
+    position: relative;
+    width: 140px;
+    height: 120px;
+    background: var(--white);
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    box-shadow: 0 10px 0 rgba(0,0,0,0.1),
+    inset 0 -8px 0 #fff;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+
+}
+#meals .icon::before{
+
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-top-right-radius: 50px;
+    box-shadow: 15px -15px 0 15px var(--white);
+}
+#meals .icon::after{
+
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-top-left-radius: 50px;
+    box-shadow: -15px -15px 0 15px var(--white);
+}
+
+#meals .icon img{
+    color: #fff;
+    position: relative;
+    height: 100px;
+    border-radius: 50%;
+    z-index: 10000;
+}
+#meals .content{
+    position: absolute;
+    width: 100%;
+    padding: 30px;
+    padding-top: 140px;
+    text-align: center;
+}
+#meals .content h2{
+    font-size: 1.75em;
+    color: #fff;
+    margin-bottom: 10px;
+}
+#meals .content p{
+    color: #fff;
+    line-height: 1.5em;
+}
+</style>
+
+<script>
+    window.onload = function() {
+       let y = document.getElementById('active').firstElementChild;
+       let x = document.getElementById('activ-2').firstElementChild;
+        x.className = "carousel-item col-md-4 active";
+       y.className = "carousel-item col-md-4 active";
+    };
+    function next(){
+    // Control buttons
+    $('.next').click(function () {
+      $('.carousel').carousel('next');
+      return false;
+    });
+    }
+    function prev(){
+    $('.prev').click(function () {
+      $('.carousel').carousel('prev');
+      return false;
+    });
+    }
+    
+(function ($) {
+    "use strict";
+    // Auto-scroll
+    $('#myCarousel').carousel({
+      interval: 5000
+    });
+  
+    
+  
+    // On carousel scroll
+    $("#myCarousel").on("slide.bs.carousel", function (e) {
+      var $e = $(e.relatedTarget);
+      var idx = $e.index();
+      var itemsPerSlide = 3;
+      var totalItems = $(".carousel-item").length;
+      if (idx >= totalItems - (itemsPerSlide - 1)) {
+        var it = itemsPerSlide -
+            (totalItems - idx);
+        for (var i = 0; i < it; i++) {
+          // append slides to end 
+          if (e.direction == "left") {
+            $(
+              ".carousel-item").eq(i).appendTo(".carousel-inner");
+          } else {
+            $(".carousel-item").eq(0).appendTo(".carousel-inner");
+          }
+        }
+      }
+    });
+  })
+  (jQuery);</script>

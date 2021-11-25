@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static '/css/login.css' %}">
+<style>
+.container {
+  display: flex;
+  height: 320px !important;
+  margin: 0 auto;
+  width: 640px;
+}
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], textarea {
+  background-color: transparent;
+  background-image: linear-gradient(to right,#ff005e 0,#ff7101 70%);
+  background-repeat: no-repeat;
+  background-position: 0 calc(100% + 3px),0 0;
+  background-size: 100% 3px;
+  box-shadow: none;
+  border: 0;
+  border-bottom: 3px solid #ff005e;
+  color: #000;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  font-size: 20px;
+  line-height: 1.5;
+  outline: 0 none;
+  padding: .25rem 0;
+  transition: border-color .2s linear;
+  width: 100%;
+  
+}
+#submit {
+    color: var(--white);
+    margin-top: 40px;
+    transition: color 300ms;
+    background-image: linear-gradient(to right,#ff005e 0,#ff7101 70%);
+    border-radius: 45px;
+}
+</style>
+{% endblock %}
+{% block main %}
+
+<div class="page">
+    <div class="container">
+      <div class="left">
+        <div class="login">Login</div>
+        <div class="eula">By logging in you agree to the ridiculously long terms that you didn't bother to read. <br>
+          Didn't have an account? <a href="{% url 'register' %}">Signup</a>
+        </div>
+        {% for message in messages %}
+        <div class="alert alert-danger">{{message}}</div>
+        {% endfor %}
+      </div>
+      <div class="right">
+        <div class="form">
+           <form method="POST">
+               {% csrf_token %}
+               <label for="id_name">Mess Name: </label>
+               <input type="hidden" name="user_id" id="id_name" value="{{request.user.id}}">
+               {{form.name}}
+               <input type="submit" id="submit" value="Create">
+           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+

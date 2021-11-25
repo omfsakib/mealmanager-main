@@ -1,0 +1,80 @@
+<section id="balance">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2> Balance Section </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card card-body">
+                <div class="col-md-12">
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Member</th>
+                                <th scope="col">Total Deposit</th>
+                                <th scope="col">Total Spend</th>
+                                <th scope="col">Balance </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in mess.members.all %}
+                            <tr>
+                                <td>{{member.username}}</td>
+                                <td> {{member.cashdeposit.amount}}</td>
+                                <td>{{member.amountspend.spend_total|floatformat:2 }} </td>
+                                {% if member.cashdeposit.balance < 0 %}
+                                <td style="color: tomato;"> <strong>{{member.cashdeposit.balance|floatformat:2}}</strong> </td>
+                                {% elif  member.cashdeposit.balance < 150 %}
+                                <td style="color: yellowgreen;"><strong>{{member.cashdeposit.balance|floatformat:2}}</strong></td>
+                                {% else %}
+                                <td style="color: green;"><strong>{{member.cashdeposit.balance|floatformat:2}}</strong></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td></td>
+                                {% if main_balance < 0 %}
+                                <td colspan="2" style="color: tomato;">Main Balance: <strong>{{main_balance}}</strong> </td>
+                                {% elif  main_balance == 0 %}
+                                <td colspan="2" style="color: yellowgreen;">Main Balance: <strong>{{main_balance}}</strong> </td>
+                                {% else %}
+                                <td colspan="2" style="color: green;">Main Balance: <strong>{{main_balance}}</strong> </td>
+                                {% endif %}
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+#balance{
+    width: 100%;
+    background: var(--white);
+}
+#balance h2{
+    text-align: center;
+     padding: 20px;
+     background-color: var(--white);
+     color: var(--black);
+}
+.table-dark {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
+}
+.table-dark td, .table-dark th, .table-dark thead th {
+    border-color: var(--black);
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid var(--black);
+}
+.table td, .table th {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid var(--black);
+}
+</style>

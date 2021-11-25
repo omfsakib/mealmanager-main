@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block head %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% endblock %}
+
+{% block menu %}
+
+<div class="btns menuToggle">
+    <ion-icon name="menu-outline"></ion-icon>
+    <ion-icon name="close-outline"></ion-icon>
+</div>
+
+{% endblock %}
+
+{% block main %}
+
+<h2>{{mess.name}}</h2>
+
+<p class="copyrightText">{{now}}</p>
+
+<ul class="sci">
+    <li><a href=""><ion-icon name="person-circle-outline"></ion-icon></a></li>
+    <li><a href=""><ion-icon name="accessibility-outline"></ion-icon></a></li>
+    <li><a href="{% url 'logout' %}"><ion-icon name="log-out-outline"></ion-icon></a></li>
+</ul>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'section/meals.html' %}
+{% include 'section/addbills.html' %}
+{% include 'section/amountspend.html' %}
+{% include 'section/cashdeposit.html' %}
+{% include 'section/balance.html' %}
+<!-- Sidebar Navigation --->
+<ul class="navigation">
+    <li><a href="">Home</a></li>
+    <li><a href="">About</a></li>
+    <li><a href="">Package</a></li>
+    <li><a href="">Contact</a></li>
+</ul>
+
+{% endblock %}
